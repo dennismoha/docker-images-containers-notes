@@ -303,6 +303,96 @@ Here are some examples:
 The `docker cp` command provides a convenient way to transfer files between the host machine and Docker containers, facilitating tasks such as data backup, configuration management, and debugging.
 
 ### 7) Naming & Tagging Containers and Images
+<h3 style="text-align:center; color:green; text-transform:uppercase"> Image Tagging</h3>
+<p> When you run docker images to list images, you will realize that in some images the under the tag section reads as < none >. This is because the images are untagged. </p>
+
+<p> so what is docker image taggging? </p>
+
+```
+Think of Docker image tagging as the process of assigning a label or identifier or a name to a Docker image.  Tags are used to uniquely identify different versions of an image, allowing users to reference and use specific versions as needed.
+```
+<p> So how do we assign the docker image tags ? </p>
+
+* When you build a Docker image using the docker build command, you can assign a tag to that image using the -t or --tag option followed by the desired tag name. For example:
+
+
+```
+docker build -t myimage:latest .
+```
+<emp> Don't forget the  . above in the above command <emp>
+
+Docker image tagging indeed includes two parts: the image name and the tag. When tagging a Docker image, you specify both the name of the image and the tag separated by a colon (:).
+
+For example, in the command: <code>docker build -t myimage:latest </code>.
+
+* myimage is the name of the image.
+* latest is the tag assigned to that image.
+
+```
+The combination of the image name and the tag uniquely identifies a specific version or variant of the Docker image. You can think of it as a version control mechanism for Docker images, where the tag signifies a particular version, release, or variant of the image.
+
+example: node:14 , node:12, node:10 ,etc
+```
+
+
+
+* In this example, myimage is the name of the image, and latest is the tag assigned to it. The tag can be any string, but it's common practice to use semantic versioning eg v2.0.0 or descriptive labels to indicate the version or purpose of the image.
+
+* Once tagged, Docker images can be pushed to a registry using the docker push command, and they can be pulled from the registry using the docker pull command, with the tag specifying which version of the image to retrieve.
+
+* Tagging is essential for managing and versioning Docker images, especially in environments where multiple versions of an application are deployed simultaneously or where images need to be easily identifiable for deployment, testing, and rollback purposes.
+
+```
+To test:  manouvre to the folder with your code and run docker built -t sample:latest .
+
+After the build process is done, run docker images:
+you will realize that the under the Repository is your docker firstname: and under the TAG is the version 
+
+```
+
+```
+  Now you can use the docker image name as 
+  docker run -p 3000:80 -d --rm --name goalsapp goals:latest
+
+  NB: this command means, create the container and portfward port 80 through 3000, 
+  --rm means after the container is closed or stopped delete it
+  --name gives our container a name of "goalsapp"
+  -- goals:latest is our image name
+```
+
+<h3 style="text-align:center; color:green; text-transform:uppercase"> Docker container Naming</h3>
+
+<h4><b><i>
+<pre>
+  When you run docker run <image_id>, docker will create a container for you with a random name. 
+  When you run docker ps, on the list of containers and the names section you realize docker has a chosen a random name for you since you didn't instruct it to give your container a name when building.   
+ While Docker containers themselves don't have tags, you can still add names in the following methods:</h4></b></i>
+
+<ol> 
+  <li> 
+    <span style="font-size:16px"><b>Naming Containers</b></span> : When running a container with the docker run command, you can use the --name option to specify a custom name for the container. For example: <br/>
+    <code> docker run --name mycontainer myimageID </code> <br/>
+    <code> docker run -p 3000:80 -d --rm  --name mycontainer myimageId </code>
+    <p>This assigns the name "mycontainer" to the container instance. </p>
+    <p> Now you can use the container name as  <code> docker stop container_name </code> </p>
+  </li>
+
+  <li><b>Labels </b>: Docker containers support labels, which are key-value pairs used to attach metadata to containers. You can add labels to containers during creation or while the container is running using the docker container label command.
+   </li> 
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
