@@ -382,6 +382,15 @@ you will realize that the under the Repository is your docker firstname: and und
 </ol>
 
 
+### 8) Sharing images
+
+```
+    Everyone who has an image, can create containers based on the image. Now they can share these images in the following manner
+
+```
+1) Share a Dockerfile - the dockerfile instructions might need sorrounding files/ folders eg source code.  Then he can run <code> docker build . </code> to create a container
+2) share a built image -- So long as the image is published on docker hub then that image can be downloaded and a container ran based on it. eg for the <i>node image </i>  , running <code>docker build node</code> will download this image from the docker hub and create a container based on it.
+No <code>docker build . <code> or in short build step is needed here since everything is included in the image
 
 
 
