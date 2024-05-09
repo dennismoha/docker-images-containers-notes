@@ -360,6 +360,36 @@ you will realize that the under the Repository is your docker firstname: and und
   -- goals:latest is our image name
 ```
 
+<h4 style="text-align:center; color:green; text-transform:uppercase"> Tagging untagged built images (Dangling Image)</h4>
+
+* If you have an untagged image (often referred to as a dangling image) that was created but not tagged during the build process, you can still add a tag to it using the docker tag command. Here's how you can do it:
+
+* List Dangling Images: First, you need to identify the ID of the untagged image. You can list all images, including dangling ones, using the following command: ```
+docker images --filter "dangling=true"```
+
+* Tag the Image: Once you have the ID of the untagged image, you can tag it using the docker tag command. The basic syntax for tagging an image is: ```docker tag <image_id> <repository>:<tag>```
+Replace <image_id> with the ID of the untagged image, <repository> with the name of the repository you want to tag it with, and <tag> with the desired tag name.For example, if the ID of the untagged image is 1234567890ab and you want to tag it with the repository name myrepo and the tag latest, you would use: ```docker tag 1234567890ab myrepo:latest```
+
+* Verify the Tag: After tagging the image, you can verify that the tag has been successfully added by listing the images again: ```docker images``` . You should see the newly tagged image listed with the repository and tag you specified.
+
+
+<h5 style="text-align:center; color:green; text-transform:uppercase">replace a docker image tag with  a new tag <h5>
+
+We use the following command:
+```
+1) docker tag old_image_repository_name:tag  newRepository_name:tag.
+2) docker tag old_image_repository_name  newRepository_name
+
+Tags are optional 
+
+So, when you rename an image, you don't get rid of the old image but instead you get a clone of the new image with the respective new name.
+
+
+```
+
+
+
+
 <h3 style="text-align:center; color:green; text-transform:uppercase"> Docker container Naming</h3>
 
 <h4><b><i>
@@ -385,12 +415,75 @@ you will realize that the under the Repository is your docker firstname: and und
 ### 8) Sharing images
 
 ```
-    Everyone who has an image, can create containers based on the image. Now they can share these images in the following manner
+    Everyone who has an image, can create containers based on the image. Now they can share these images in the following manner:
 
 ```
-1) Share a Dockerfile - the dockerfile instructions might need sorrounding files/ folders eg source code.  Then he can run <code> docker build . </code> to create a container
+1) Share a Dockerfile - the dockerfile instructions might need sorrounding files/ folders eg source code.  Then he can run <code> docker build . </code> to create a container. eg our current code
 2) share a built image -- So long as the image is published on docker hub then that image can be downloaded and a container ran based on it. eg for the <i>node image </i>  , running <code>docker build node</code> will download this image from the docker hub and create a container based on it.
 No <code>docker build . <code> or in short build step is needed here since everything is included in the image
+
+### 9) Pushing images to Dockerhub
+
+<p> There are two places we can share docker images :
+<dl>
+  <dt> 1) Docker hub</dt>
+  <dd> This is the official docker image registry. You can push your image using <code> docker push username/repository:latest <code> </dd>
+  <dt> 2) Private Registry</dt>
+  <dd> This is one for your job or personal or etc so that it can handle docker image files. You can push your docker image to it through <code>docker push image_name</code> but in this case, <i>image_name</i> needs to be <i>Host:Name</i> to talk to private registry</dd>
+</dl> 
+</p>
+
+<h3 style="text-align:center; color:green; text-transform:uppercase"> pushing images to dockerhub </h3>
+
+# How to Create a Docker Hub Account and Push an Image
+
+## Creating a Docker Hub Account
+
+1. **Go to Docker Hub**: Open your web browser and navigate to [Docker Hub](https://hub.docker.com/).
+
+2. **Sign Up**: Click on the "Sign Up" button in the top right corner of the page.
+
+3. **Fill in the Details**: Enter your email address, username, and password. Make sure to choose a strong password.
+
+4. **Agree to the Terms of Service**: Read and agree to the Docker Hub Terms of Service by checking the box.
+
+5. **Complete Sign Up**: Click on the "Sign Up" button to complete the registration process.
+
+6. **Verify Email**: Check your email inbox for a verification email from Docker Hub. Click on the verification link to verify your email address.
+
+## Creating a Repository on Docker Hub
+
+1. **Log in to Docker Hub**: If you're not already logged in, use the `docker login` command to log in to Docker Hub. You'll be prompted to enter your Docker Hub username and password.
+
+2. **Navigate to Repositories**: Once logged in, go to your Docker Hub account in your web browser and navigate to the "Repositories" section.
+
+3. **Create Repository**: Click on the "Create Repository" button. Enter a name for your repository and, optionally, a description. Choose whether the repository will be public or private.
+
+## Pushing an Image to Docker Hub
+
+Assuming you already have a Docker image that you want to push to Docker Hub, here's how you can do it:
+
+1. **Tag your Docker Image**: Before pushing your image to Docker Hub, you need to tag it with your Docker Hub username and the repository name. Suppose your Docker Hub username is `username` and your image is named `myimage`, you would tag it like this: <code> docker tag myimage:latest username/myimage:latest </code> . Inshort this command is replacing our docker oldImageContainerName with the name of our dockerhub username/repository
+
+
+2. **Log in to Docker Hub**: Use the `docker login` command to log in to Docker Hub. You'll be prompted to enter your Docker Hub username and password.
+
+3. **Push your Image to Docker Hub**: Once logged in, you can push your tagged image to Docker Hub using the `docker push` command: <code> docker push username/myimage:latest</code>.
+
+```
+When you don't specify a tag while tagging and pushing a Docker image to Docker Hub, Docker uses the latest tag by default. This means that if you omit the tag, Docker will implicitly tag the image with the latest tag.
+
+This can potentially lead to confusion if you have multiple versions of the same image, as users might assume that latest always represents the most recent version. It's generally a good practice to explicitly tag your images with meaningful versions or labels to avoid ambiguity and ensure clarity.
+```
+
+4. **Verify**: After pushing your image, go to your Docker Hub account in your web browser and navigate to the "Repositories" section. You should see your `myimage` repository listed there with the `latest` tag.
+
+```
+  Also on the docker repository when creeating  arepository instructions are show on how to tag and push an image
+```
+
+
+
 
 
 
