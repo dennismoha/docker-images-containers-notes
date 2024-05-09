@@ -37,6 +37,24 @@ What are volumes ?
     Docker volumes are folders on your host machine (i.e the local machine) hard drives which are mounted or in other words made available to your containers. Volumes can be mounted into one or more containers, allowing data to be shared and persisted across container instances.
 
 ```
+# Docker Volumes: Solutions they Provide
+
+Docker volumes solve several challenges related to data management and persistence in containerized environments. Here are some key problems that Docker volumes address:
+
+1. **Data Persistence**: Containers are ephemeral by nature, meaning that any data stored within them is lost when the container is stopped or deleted. Docker volumes provide a way to persist data beyond the lifecycle of individual containers. This ensures that important data, such as application logs, configuration files, and user uploads, remains intact even when containers are recreated or scaled up/down.
+
+2. **Data Sharing**: Docker volumes facilitate data sharing between containers and between containers and the host machine. By mounting the same volume into multiple containers, you can enable data exchange and collaboration among different parts of an application stack. This is particularly useful for microservices architectures where individual services need access to shared data.
+
+3. **Performance Optimization**: Docker volumes offer performance benefits compared to traditional storage solutions like bind mounts. They leverage native filesystem drivers and optimized storage backends to provide faster I/O operations, reducing latency and improving application performance. This is crucial for high-throughput applications or those with stringent performance requirements.
+
+4. **Data Isolation**: Docker volumes provide a mechanism for isolating data from the container's filesystem. This separation helps prevent accidental data loss or corruption caused by modifications to the container's filesystem. It also enables easier backup and restoration of data, as volumes can be managed independently of containers.
+
+5. **Integration with External Storage Systems**: Docker volumes seamlessly integrate with external storage systems and cloud storage providers, allowing you to store data in distributed or remote storage environments. This enables hybrid cloud deployments and simplifies data management across diverse infrastructure setups.
+
+6. **Stateful Applications**: For stateful applications, such as databases or message queues, Docker volumes are essential for preserving data integrity and ensuring consistent performance. Volumes provide a reliable mechanism for storing and accessing application state, allowing stateful containers to be easily managed and orchestrated.
+
+Overall, Docker volumes offer a robust solution for managing data in containerized environments, addressing common challenges related to data persistence, sharing, performance, isolation, and integration with external storage systems. 
+
 
 ## Key Concepts:
 
@@ -52,11 +70,74 @@ What are volumes ?
 
 ## Usage:
 
-- **Creating Volumes**: Volumes can be created using the `docker volume create` command or automatically created when a container is started with the `-v` or `--mount` flag.
+```
+To see all docker volume options run docker volume --help
+```
+
+* When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile , during image creation this translates to('in layman') the path inside of the container which should be mapped to some folder outside the container where the data should survive
+
+* Now and which path in our local system will docker mount it to ?
+ 
+* we Run ``` docker volume ls``` to list all volumes that docker is currently managing.
+
+* So we have two types of volumes:
+<dl>
+    <dt>
+    Anyonymous volumes
+    <dd> Anonymous volumes are managed by Docker and are not given a specific name. <dd>
+    </dt>
+     <dt>
+    Named volumes
+    <dd> Named volumes are user-defined volumes that have a specific name.<dd>
+    </dt>
+</dl>
+
+###  Anonymouse volumes
+<div style="line-height:30px">  When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile, this will create an anonymous volume. 
+
+<b>NB:</b> <i> This volume will persist through the lifetime of the container and ones the container is stopped it'll cease to exist. This happens when you start / run a container with the --rm option.If you start a container without that option, the anonymous volume  <span style="text-transform: uppercase"><b>would NOT be removed</b></span>, even if you remove the container (with docker rm ...).</i>
+
+<pre>
+Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
+
+Now you just start piling up a bunch of unused anonymous volumes - you can clear them via <code> docker  volume rm VOL_NAME </code> or <code> docker volume prune </code>.
+</pre>
+
+
+If you ran ```docker volume ls``` , anonymous will be listed as under Driver is "local" and under "VOLUME NAME" is a cryptographic hash
+</div>
+
+### Named volumes
+
+<pre>
+They are created and managed by Docker and can be referenced by their name when mounting into containers.
+Named volumes provide a way to persist data across container lifecycles and are commonly used for storing important application data, configuration files, and databases.
+They are not attached to a container and can be accessed even when the container is stopped or deleted
+</pre>
+
+<p> So, how do we create named volumes </p>
+
+We cannot create named volumes inside a docker file like we did with unnamed volumes above: We create a named volume only when we run a container in the following manner
+```
+ docker run -d -p 3000:80 --rm --name "container name" -v "volumeNameOfYourChoice:pathInTheContainerToMount " "image name"
+```
+
+Example: 
+```
+    docker run -d -p 3000:80 --rm --name sampleApp -v sample:/app/feed image-name:image-tag
+```
+
+# Bind Mounts
+
+
+<!-- - **Creating Volumes**: Volumes can be created using the `docker volume create` command or automatically created when a container is started with the `-v` or `--mount` flag.
 
 - **Mounting Volumes**: Volumes can be mounted into containers using the `-v` or `--mount` flag when running containers with the `docker run` command.
 
-- **Managing Volumes**: Docker provides commands for managing volumes, including listing existing volumes (`docker volume ls`), inspecting volume details (`docker volume inspect`), and removing volumes (`docker volume rm`).
+- **Managing Volumes**: Docker provides commands for managing volumes, including listing existing volumes (`docker volume ls`), inspecting volume details (`docker volume inspect`), and removing volumes (`docker volume rm`). -->
+
+
+
 
 
 
