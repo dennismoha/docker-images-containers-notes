@@ -483,7 +483,7 @@ This can potentially lead to confusion if you have multiple versions of the same
 ```
 
 
-### 10)  Pullinh & Using shared Images
+### 10)  Pulling & Using shared Images
 
 <p>`docker pull` is a Docker command used to fetch Docker images from a Docker registry. It downloads the specified image or images from the registry and stores them locally on your system, enabling you to utilize them to create and run containers. <p>.
 
@@ -504,6 +504,15 @@ This can potentially lead to confusion if you have multiple versions of the same
 
 <p>Once the image is successfully pulled, you can leverage it to create containers in your local Docker environment for development, testing, or production purposes.
 </p>
+
+```
+if you run docker run repo/imagename without running docker pull first, docker run will first try to find the image on your machine and if the image not available it'll run look for it in the docker hub and pull it automatically.
+
+NB: docker run never checks for updates of your image
+You need to run docke pull again in order to fetch the latest image
+```
+
+
 
 
 
