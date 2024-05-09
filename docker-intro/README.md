@@ -483,6 +483,27 @@ This can potentially lead to confusion if you have multiple versions of the same
 ```
 
 
+### 10)  Pullinh & Using shared Images
+
+<p>`docker pull` is a Docker command used to fetch Docker images from a Docker registry. It downloads the specified image or images from the registry and stores them locally on your system, enabling you to utilize them to create and run containers. <p>.
+
+<h5> Pulling an Image with the Latest Tag</h5>
+
+* To pull an image named nginx with the latest tag, execute the following command:
+```docker pull dockerHubImageName```. eg docker pull nginx, docker
+
+<h5>Pulling a Specific Version of an Image</h5>
+
+```docker pull dockerimagename:dockerimagetag``` example: docker pull nginx:1.19.8
+
+<h5>Pulling an Image Using Its Digest </h5>
+
+```docker pull nginx@digest ```
+
+* Example: docker pull nginx@sha256:abcdef123456...
+
+<p>Once the image is successfully pulled, you can leverage it to create containers in your local Docker environment for development, testing, or production purposes.
+</p>
 
 
 
