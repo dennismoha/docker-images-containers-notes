@@ -125,9 +125,153 @@ We cannot create named volumes inside a docker file like we did with unnamed vol
 Example: 
 ```
     docker run -d -p 3000:80 --rm --name sampleApp -v sample:/app/feed image-name:image-tag
+
+    The above command can be explained as:
+
+    # Docker Run Command
+
+        The `docker run` command is used to run a Docker container. Below are explanations of the options and arguments used in the command:
+
+        - `-d`: This option runs the container in detached mode, meaning it runs in the background.
+
+        - `-p 3000:80`: This option maps port 3000 on the host machine to port 80 inside the container. This allows you to access the containerized application running on port 80 from port 3000 on the host machine.
+
+        - `--rm`: This option specifies that the container should be automatically removed once it's stopped. This helps keep the system clean by removing the container automatically after it's no longer needed.
+
+        - `--name feedback-app`: This option assigns a name to the container. In this case, the container is named "feedback-app".
+
+        - `-v feedback:/app/feedback`: This option mounts a volume named "feedback" into the container at the path "/app/feedback". The format is `-v <volume_name>:<container_path>`. This allows data to be shared and persisted between the host machine and the container.
+
+        - `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
+
+
+
 ```
 
+# Understanding Bind Mounts in Docker
+
+With Docker volumes, you don't have control over the specific path where Docker mounts your files or directories. Docker manages this internally, and any changes to your code typically require rebuilding the entire container from scratch and then remounting it.
+
+To avoid this cumbersome process, Docker provides **Bind Mounts**. With bind mounts, you, the user, specify exactly where you want Docker to bind your paths. This gives you control over the locations on your host machine's filesystem that you want to make available inside the container.
+
+In essence, bind mounts offer the flexibility to directly map directories or files from your host machine into the container's filesystem. This makes it easier to work with code and other data without the need for rebuilding the container each time a change is made.
+
+Just refresh your web app and the code changes are picked
+
+This approach is particularly useful during development when frequent changes are made to code or configuration files. Instead of rebuilding the container every time a change is made, you can simply mount the relevant directories using bind mounts, allowing for a more efficient and streamlined development workflow.
+
+# How To Create a Bind Mount
+
+We use the following command to create a bind mount:
+
+```
+docker run -p 3000:80 -v presentWorkingDirectoryOfTheHostMachine:/app -v /app/node_modules imageName:ImageTag
+
+Example
+docker run -p 3000:80 -v $(pwd):/app -v /app/node_modules feedback:volume
+
+```
+
+Explanation of the above code. 
+
+## Explanation of Docker the above Command
+``` docker run -p 3000:80 -v presentWorkingDirectoryOfTheHostMachine:/app -v /app/node_modules feedback:volume```
+
+The `docker run` command is used to run a Docker container with various options. Here's an explanation of the options used in the provided command:
+
+- `-p 3000:80`: This option maps port 3000 on the host machine to port 80 inside the container. It allows you to access the application running inside the container on port 80 from port 3000 on your host machine.
+  
+- `-v $(pwd):/app`: This option specifies a bind mount. `$(pwd)` is a command substitution that resolves to the present working directory (PWD) on the host machine. It maps the current directory on the host to the `/app` directory inside the container. This bind mount is used to share the application code from the host machine with the container.
+  
+- `-v /app/node_modules`: This option specifies another bind mount. It maps the `/app/node_modules` directory inside the container. This is typically used to ensure that the `node_modules` directory, where Node.js dependencies are installed, is persisted outside the container. This is necessary because the `node_modules` directory is usually not included in the application code and needs to be managed separately.
+  
+- `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
+
+## Points to Note on Bind mounts.
+### Application Code
+
+The part `-v presentWorkingDirectoryOfTheHostMachine:/app` makes sure that the code of the application, which is stored on your computer, is connected to the container where it's going to run. This means you can write and change your code on your computer, and those changes will immediately affect the application running inside the container, without needing to do anything fancy like rebuilding the whole thing.
+
+## Node.js Dependencies
+
+The bind mount `-v /app/node_modules` ensures that the `node_modules` directory, where Node.js dependencies are installed using npm or yarn, is persisted outside the container. This directory is typically not included in the application code and needs to be managed separately. By mounting the node_modules directory into the container, the dependencies are available to the application without the need for manual installation steps inside the container.
+
+# Docker Bind Mount Best Practices
+
+When using bind mounts in Docker, consider the following best practices to ensure smooth operation:
+
+1. **Provide Absolute Path of Your File in Your Respective Project Folder**: 
+   When specifying the path to your file or directory for the bind mount in Docker, it's important to provide the absolute path. The absolute path includes the full directory path starting from the root directory. 
+
+   Example:
+   ```bash
+   docker run -v /absolute/path/to/your/folder:/container/mount/point image_name
+   ```
+2. **Wrap Path Inside Quotes If It Has Special Characters**:
+
+    If the path to your file or directory contains special characters, such as spaces or symbols, wrap the path inside double quotes ("").Example
+    ```bash
+    docker run -v "/path/with/special characters:/container/mount/point" image_name
+    ```
+3. **Ensure Folder Path Ends with the Folder Name and Not File Name**:
+
+    When specifying a directory path for the bind mount, make sure the path ends with the name of the folder and not the name of a specific file within the folder.
+    Example:
+    ```bash
+    docker run -v /path/to/folder:/container/mount/point image_name
+    ```
+4. **Ensure Docker Has Access to the Folder You Are Sharing as Bind Mount**:
+
+    Additionally, ensure that Docker itself has the necessary permissions to access the folder
+
+    * Go to the docker Application
+    * Top left click on settings
+    * on the menu click on resources
+    * Under resources click on file sharing.
+    * choose the path. If the parent directory  where your project is kept is available then it's okey
+
+
+
+
+
+
 # Bind Mounts
+
+
+NB:
+1) Make sure you provide absolute path of your file of your respective project folder
+2) If your folder path has got special characters, wrap the path inside quotes "".
+3) make sure the folder path ends with in the folder name and not file name.
+4) make sure docker has access to the folder you are sharing as bind mount.
+
+Sure, here's the content formatted as a README.md file:
+
+markdown
+Copy code
+# Using Shortcuts foDocker needs permission to access the folder you are sharing as a bind mount. Make sure that the folder has the appropriate permissions set to allow Docker to read and write to it. r Docker Bind Mounts
+
+Just a quick note: If you don't always want to copy and use the full path, you can use these shortcuts:
+
+### macOS / Linux:
+```bash
+-v $(pwd):/app
+This shortcut uses $(pwd) to represent the current working directory. It automatically resolves to the full path of the current directory where the command is executed. For example: docker run -v $(pwd):/app my_image
+```
+
+Windows:
+```bash
+
+-v "%cd%":/app
+
+On Windows, %cd% is used to represent the current working directory. It resolves to the full path of the current directory. For example:
+
+
+docker run -v "%cd%":/app my_image
+```
+Using these shortcuts simplifies the process of specifying bind mounts, especially when working with multiple directories or in scripts.
+
+
+
 
 
 <!-- - **Creating Volumes**: Volumes can be created using the `docker volume create` command or automatically created when a container is started with the `-v` or `--mount` flag.
