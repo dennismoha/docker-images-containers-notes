@@ -207,11 +207,14 @@ When using bind mounts in Docker, consider the following best practices to ensur
    ```bash
    docker run -v /absolute/path/to/your/folder:/container/mount/point image_name
    ```
+
+   NB:
+    you can replace `absolute/path/to/your/folder` with the following respective code according to different os as showed [path](#path-shortcuts)
 2. **Wrap Path Inside Quotes If It Has Special Characters**:
 
     If the path to your file or directory contains special characters, such as spaces or symbols, wrap the path inside double quotes ("").Example
     ```bash
-    docker run -v "/path/with/special characters:/container/mount/point" image_name
+    docker run -v "/path/with/special characters:/container/mount/point" image_name    
     ```
 3. **Ensure Folder Path Ends with the Folder Name and Not File Name**:
 
@@ -232,24 +235,9 @@ When using bind mounts in Docker, consider the following best practices to ensur
 
 
 
+``` Using Shortcuts for Docker needs permission to access the folder you are sharing as a bind mount. Make sure that the folder has the appropriate permissions set to allow Docker to read and write to it. r Docker Bind Mounts```
 
-
-
-# Bind Mounts
-
-
-NB:
-1) Make sure you provide absolute path of your file of your respective project folder
-2) If your folder path has got special characters, wrap the path inside quotes "".
-3) make sure the folder path ends with in the folder name and not file name.
-4) make sure docker has access to the folder you are sharing as bind mount.
-
-Sure, here's the content formatted as a README.md file:
-
-markdown
-Copy code
-# Using Shortcuts foDocker needs permission to access the folder you are sharing as a bind mount. Make sure that the folder has the appropriate permissions set to allow Docker to read and write to it. r Docker Bind Mounts
-
+#### path shortcuts
 Just a quick note: If you don't always want to copy and use the full path, you can use these shortcuts:
 
 ### macOS / Linux:
