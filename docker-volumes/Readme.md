@@ -156,7 +156,16 @@ To avoid this cumbersome process, Docker provides **Bind Mounts**. With bind mou
 
 In essence, bind mounts offer the flexibility to directly map directories or files from your host machine into the container's filesystem. This makes it easier to work with code and other data without the need for rebuilding the container each time a change is made.
 
-Just refresh your web app and the code changes are picked
+Just refresh your web app and the code changes are picked only for presentational files eg html. 
+
+So for example you added `console.log`  or edited server files, in order to view those changes you have to either <br>
+    1. stop the container and restart it again manually through `docker stop`
+    2. in the case of nodejs add `nodemon` in the script and `['npm','start']` script
+
+NB :
+
+
+       For windows file system using wsl2 the refreshing might now work as expected unless you store your project and project files in directly in the Linux file system. To access the linux file system on windows , check the "docs/windows-wsl2-file-events.pdf" folder  .
 
 This approach is particularly useful during development when frequent changes are made to code or configuration files. Instead of rebuilding the container every time a change is made, you can simply mount the relevant directories using bind mounts, allowing for a more efficient and streamlined development workflow.
 
