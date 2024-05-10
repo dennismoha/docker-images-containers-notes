@@ -143,8 +143,11 @@ docker run -d \
 * **postgres:latest** is the PostgreSQL Docker image and its tag.
 
 
- When you execute `docker volume ls`, anonymous volumes will be listed with the Driver shown as "local" and a cryptographic hash displayed under the "VOLUME NAME" column. This hash serves as a unique identifier for each anonymous volume, facilitating easy reference and management within Docker environments.
+ When you execute `docker volume ls`, anonymous volumes will be listed with the Driver shown as "local" and a cryptographic hash displayed under the "VOLUME NAME" column. This hash serves as a unique identifier for each anonymous volume, facilitating easy reference and management within Docker environments. Example below:
 </div>
+list  of anonymous volumes 
+
+![anonymous text](./assets/images/anonymous-volumes.png)
 
 
 ### Named volumes
