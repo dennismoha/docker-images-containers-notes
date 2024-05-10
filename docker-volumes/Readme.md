@@ -276,6 +276,8 @@ The part `-v presentWorkingDirectoryOfTheHostMachine:/app` makes sure that the c
 
 The bind mount `-v /app/node_modules` ensures that the `node_modules` directory, where Node.js dependencies are installed using npm or yarn, is persisted outside the container. This directory is typically not included in the application code and needs to be managed separately. By mounting the node_modules directory into the container, the dependencies are available to the application without the need for manual installation steps inside the container.
 
+NB: This is also a type of Anonymous volume and here it shows one big use case for anonymous volume in allowing for separating the dependency management from the container, ensuring that these dependencies persist outside the container's lifecycle.
+
 # Docker Bind Mount Best Practices
 
 When using bind mounts in Docker, consider the following best practices to ensure smooth operation:
