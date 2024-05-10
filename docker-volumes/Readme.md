@@ -114,11 +114,9 @@ If you need to manage bind mounts or see which directories are mounted into cont
 - When you start or run a container with the `--rm` option, the anonymous volume associated with that container is automatically removed once the container stops. However, if you start a container without the `--rm` option, the anonymous volume **will not be removed**, even if you subsequently remove the container using `docker rm`.
 
 
-
-
 - Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
 
-Now you just start piling up a bunch of unused anonymous volumes - you can clear them via <code> docker  volume rm VOL_NAME </code> or <code> docker volume prune </code>.
+- Now you just start piling up a bunch of unused anonymous volumes - you can clear them via <code> docker  volume rm VOL_NAME </code> or <code> docker volume prune </code>.
 
 
 2. ** During the `docker run`
@@ -145,7 +143,7 @@ docker run -d \
 * **postgres:latest** is the PostgreSQL Docker image and its tag.
 
 
-If you ran ```docker volume ls``` , anonymous will be listed as under Driver is "local" and under "VOLUME NAME" is a cryptographic hash
+ When you execute `docker volume ls`, anonymous volumes will be listed with the Driver shown as "local" and a cryptographic hash displayed under the "VOLUME NAME" column. This hash serves as a unique identifier for each anonymous volume, facilitating easy reference and management within Docker environments.
 </div>
 
 
