@@ -152,11 +152,11 @@ list  of anonymous volumes
 
 ### Named volumes
 
-<pre>
+```markdown
 They are created and managed by Docker and can be referenced by their name when mounting into containers.
 Named volumes provide a way to persist data across container lifecycles and are commonly used for storing important application data, configuration files, and databases.
 They are not attached to a container and can be accessed even when the container is stopped or deleted
-</pre>
+```
 
 <p> So, how do we create named volumes </p>
 
@@ -166,8 +166,8 @@ We cannot create named volumes inside a docker file like we did with unnamed vol
 ```
 
 Example: 
-```
-    docker run -d -p 3000:80 --rm --name sampleApp -v sample:/app/feed image-name:image-tag
+```markdown
+    docker run -d -p 3000:80 --rm --name sampleApp -v minikube:/app/feed image-name:image-tag
 
     The above command can be explained as:
 
@@ -188,6 +188,7 @@ Example:
         - `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
 
 ```
+![anonymous text](./assets/images/named-volumes.png)
 
 Also , NB:
 
