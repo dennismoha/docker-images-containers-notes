@@ -205,7 +205,7 @@ docker run -p 3000:80 -d -v volume-name:/container/path image-name
 
 - **Mounting Volumes**: Volumes can be mounted into containers using the `-v` or `--mount` flag when running containers with the `docker run` command.
 
-<!-- - **Managing Volumes**: Docker provides commands for managing volumes, including listing existing volumes (`docker volume ls`), inspecting volume details (`docker volume inspect`), and removing volumes (`docker volume rm`). -->
+
 
 
 
@@ -224,6 +224,9 @@ docker volume create my_volume
 The `docker volume inspect` command allows you to view detailed information about a Docker volume. This includes metadata such as the volume name, driver, mount point, and options. To inspect a volume named "my_volume", you would run:
 
 NB: when you run this command, the <b>mountpoint</b> path is a path on the docker virtual machine and not your host machine 
+
+example ` docker volume inspect minikube`
+![anonymous text](./assets/images/volume-inspect.png)
 
 ```bash
 docker volume inspect my_volume
