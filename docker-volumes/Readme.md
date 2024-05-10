@@ -267,6 +267,54 @@ docker run -v "%cd%":/app my_image
 ```
 Using these shortcuts simplifies the process of specifying bind mounts, especially when working with multiple directories or in scripts.
 
+# READONLY VOLUMES
+
+## Docker Volume Mounts: Read-Only Option
+
+By default, Docker volumes are mounted as read-write, meaning that processes running inside the container have both read and write access to the files and directories within the volume. i.e as we saw earlier, we can write to the docker volume and also can read from the docker volume.
+
+ However, Docker also provides the option to mount volumes as <b>read-only</b>, where processes have only read access and cannot modify the contents of the volume.
+
+The ability to specify read-only volumes gives you more flexibility in how you manage and use volumes in Docker containers. It allows you to enforce stricter access control and prevent unintended modifications to critical data or configurations stored within the volume.
+
+When you specify a volume as read-only using the `:ro` option in the `docker run` command, Docker ensures that any attempts to write to or modify files within the volume from within the container are denied. This helps maintain data integrity and prevents accidental changes, particularly in scenarios where you want to provide access to static data or configurations that should not be modified.
+
+In summary, while Docker volumes are typically mounted as read-write by default, you have the option to mount volumes as read-only when needed, providing additional control over how data is accessed and modified within Docker containers.
+
+## Docker Volumes: Read-Write and Read-Only Examples
+
+Illustrated below are examples demonstrating both read-write and read-only Docker volumes:
+
+### Read-Write Volume Example:
+
+```bash
+docker run -d \
+  -v /path/on/host:/path/in/container \
+  -p 8080:80 \
+  nginx:latest
+```
+In this command:
+
+`-v /path/on/host:/path/in/container`: This mounts a volume from the host machine's `/path/on/host` directory to the container's `/path/in/container directory`. By default, this volume is mounted as read-write, allowing processes running inside the container to read from and write to the files and directories within the volume.
+
+### Read-Only Volume Example:
+
+```bash
+docker run -d \
+  -v /path/on/host:/path/in/container:ro \
+  -p 8080:80 \
+  nginx:latest
+```
+
+In this command:
+
+`-v /path/on/host:/path/in/container:ro`: This mounts the same volume from the host machine's `/path/on/host` directory to the container's `/path/in/`container directory, but with the `:ro` <b>option appended</b>.  <i><b>This specifies that the volume should be mounted as read-only</b></i>. Processes running inside the container will have <b>read-only access</b> to the files and directories within the volume, and attempts to modify or write to them will result in a <b>permissions error.</b>
+
+```
+By specifying the :ro option when mounting the volume, we ensure that the files and directories within the volume are protected from accidental modifications, providing an extra layer of security and data integrity for static content such as web files.
+```
+
+
 
 
 
