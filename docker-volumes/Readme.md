@@ -76,9 +76,20 @@ To see all docker volume options run docker volume --help
 
 * When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile , during image creation this translates to('in layman') the path inside of the container which should be mapped to some folder outside the container where the data should survive
 
-* Now and which path in our local system will docker mount it to ?
+* Now and which path in our local system will docker mount it to ? This will differ based on if the volume is anonymous, named or binded
  
-* we Run ``` docker volume ls``` to list all volumes that docker is currently managing.
+* we Run ``` docker volume ls``` to list all volumes that docker is currently managing.```
+
+NB:
+    What are [Binded volumes]("#Understanding-Bind-Mounts-in-Docker")
+```
+When you use a bind mount with the -v option in a docker run command, it doesn't create a Docker volume. Instead, it directly mounts a directory from the host filesystem into the container.
+
+Because of this, bind mounts won't show up in the list of volumes when you run docker volume ls, as they are not managed by Docker's volume system.
+
+If you need to manage bind mounts or see which directories are mounted into containers, you would typically inspect the container itself or review the docker run command used to start the container.
+```
+
 
 * So we have two types of volumes:
 <dl>
@@ -144,7 +155,65 @@ Example:
 
         - `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
 
+```
 
+Also , NB:
+
+- **Creating Volumes**: Volumes can be created using the `docker volume create` command or automatically created when a container is started with the `-v` or `--mount` flag.Example
+
+```
+docker create volume volume-name
+docker volume ls:  // view the volume list and pick your volume:
+
+Then you can use it as
+docker run -p 3000:80 -d -v volume-name:/container/path image-name
+```
+
+- **Mounting Volumes**: Volumes can be mounted into containers using the `-v` or `--mount` flag when running containers with the `docker run` command.
+
+<!-- - **Managing Volumes**: Docker provides commands for managing volumes, including listing existing volumes (`docker volume ls`), inspecting volume details (`docker volume inspect`), and removing volumes (`docker volume rm`). -->
+
+
+
+## Docker Volume Commands
+
+### Docker Create Volume
+
+The `docker volume create` command is used to manually create a named volume in Docker. Named volumes provide a way to persist data and share it between containers. To create a volume named "my_volume", you would run:
+
+```bash
+docker volume create my_volume
+```
+
+### Docker Volume Inspect
+
+The `docker volume inspect` command allows you to view detailed information about a Docker volume. This includes metadata such as the volume name, driver, mount point, and options. To inspect a volume named "my_volume", you would run:
+
+```bash
+docker volume inspect my_volume
+```
+
+### Docker Volume List
+
+The `docker volume ls` command lists all volumes that are currently present on the Docker host. This includes both <b>named volumes </b> created with `docker volume create` and <b>anonymous volumes</b> created implicitly by Docker when using the -v option in docker run commands. To list all volumes, you would run:
+
+```bash 
+    docker volume ls
+```
+
+### Docker Volume Prune
+The `docker volume prune` command is used to remove all unused volumes from the Docker host. Unused volumes are those that are not attached to any containers. This command helps to reclaim disk space by cleaning up volumes that are no longer needed. To prune unused volumes, you would run:
+
+```bash
+docker volume prune
+```
+
+### Docker Volume Remove
+
+The docker volume rm command is used to remove one or more specified volumes from the Docker host. This command is used to explicitly delete named volumes that are no longer needed. To remove a volume named "my_volume", you would run:
+
+```bash
+docker volume rm my_volume
 
 ```
 
