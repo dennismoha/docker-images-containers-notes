@@ -189,6 +189,8 @@ docker volume create my_volume
 
 The `docker volume inspect` command allows you to view detailed information about a Docker volume. This includes metadata such as the volume name, driver, mount point, and options. To inspect a volume named "my_volume", you would run:
 
+NB: when you run this command, the <b>mountpoint</b> path is a path on the docker virtual machine and not your host machine 
+
 ```bash
 docker volume inspect my_volume
 ```
@@ -201,7 +203,7 @@ The `docker volume ls` command lists all volumes that are currently present on t
     docker volume ls
 ```
 
-### Docker Volume Prune
+### Docker Volume Prune 
 The `docker volume prune` command is used to remove all unused volumes from the Docker host. Unused volumes are those that are not attached to any containers. This command helps to reclaim disk space by cleaning up volumes that are no longer needed. To prune unused volumes, you would run:
 
 ```bash
@@ -406,20 +408,6 @@ example command:
 - `-v /app/temp`: This mounts the "/app/temp" directory from the host machine to the "/app/temp" directory inside the container. It provides a location for storing temporary files or data.
 
 - `feedback-node:volumes`: This specifies the Docker image to run the container from. It uses the "feedback-node" image with the "volumes" tag.
-
-
-
-
-
-
-
-
-<!-- - **Creating Volumes**: Volumes can be created using the `docker volume create` command or automatically created when a container is started with the `-v` or `--mount` flag.
-
-- **Mounting Volumes**: Volumes can be mounted into containers using the `-v` or `--mount` flag when running containers with the `docker run` command.
-
-- **Managing Volumes**: Docker provides commands for managing volumes, including listing existing volumes (`docker volume ls`), inspecting volume details (`docker volume inspect`), and removing volumes (`docker volume rm`). -->
-
 
 
 
