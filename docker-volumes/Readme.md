@@ -103,20 +103,48 @@ If you need to manage bind mounts or see which directories are mounted into cont
     </dt>
 </dl>
 
-###  Anonymouse volumes
+###  Anonymous volumes
+<h4> How to create Anonymous volume</h4>
+
+1. **Adding `VOLUME [ "/app/feedback" ] `  to the dockerFile**.
+
 <div style="line-height:30px">  When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile, this will create an anonymous volume. 
 
 <b>NB:</b> <i> This volume will persist through the lifetime of the container and ones the container is stopped it'll cease to exist. This happens when you start / run a container with the --rm option.If you start a container without that option, the anonymous volume  <span style="text-transform: uppercase"><b>would NOT be removed</b></span>, even if you remove the container (with docker rm ...).</i>
 
-<pre>
+<div>
 Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
 
 Now you just start piling up a bunch of unused anonymous volumes - you can clear them via <code> docker  volume rm VOL_NAME </code> or <code> docker volume prune </code>.
-</pre>
+</div>
+
+2. ** During the `docker run`
+
+To create an anonymous volume in a Docker container, use the `-v` flag followed by the desired mount point within the container. If you don't specify a source for the volume, Docker automatically creates an anonymous volume.
+
+```bash
+docker run -v /path/to/mount/point my_image
+```
+
+* Replace `/path/to/mount/point` with the mount point within the container where you want the volume to be available.
+* <b>my_image</b> should be replaced with the name of the Docker image you want to run.
+
+For example, to create an anonymous volume for a PostgreSQL database container:
+```bash
+docker run -d \
+  --name my_postgres \
+  -v /var/lib/postgresql/data \
+  postgres:latest
+```
+* **The -d flag** runs the container in **detached mode**.
+* **--name my_postgres** assigns a name to the container.
+* `**-v /var/lib/postgresql/data** specifies the mount point for the anonymous volume, where PostgreSQL will store its data.
+* **postgres:latest** is the PostgreSQL Docker image and its tag.
 
 
 If you ran ```docker volume ls``` , anonymous will be listed as under Driver is "local" and under "VOLUME NAME" is a cryptographic hash
 </div>
+
 
 ### Named volumes
 
