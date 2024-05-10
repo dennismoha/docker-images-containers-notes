@@ -314,6 +314,32 @@ In this command:
 By specifying the :ro option when mounting the volume, we ensure that the files and directories within the volume are protected from accidental modifications, providing an extra layer of security and data integrity for static content such as web files.
 ```
 
+example command:
+
+`docker run -d 3000:80  --name docker-app  -v feedback:/app/feedback  -v /app/users:/app:ro  -v /app/node_modules  -v /app/temp feedback-node:volumes`
+
+
+
+##  Command Explanation:
+
+- `-d`: This flag stands for "detached" mode. It runs the container in the background and prints the container ID.
+  
+- `3000:80`: This maps port 3000 on the host machine to port 80 inside the container. It allows accessing the application running inside the container on port 80 from port 3000 on the host machine.
+
+- `--name docker-app`: This assigns the name "docker-app" to the running container. This name can be used to reference the container in subsequent commands.
+
+- `-v feedback:/app/feedback`: This mounts a volume named "feedback" to the "/app/feedback" directory inside the container. It allows sharing data between the host and the container at this specific directory.
+
+- `-v /app/users:/app:ro`: This mounts the "/app/users" directory from the host machine to the "/app" directory inside the container. The ":ro" option makes this volume read-only, meaning processes running inside the container can only read from this directory.
+
+- `-v /app/node_modules`: This mounts the "/app/node_modules" directory from the host machine to the "/app/node_modules" directory inside the container. This is typically used to persist Node.js dependencies, allowing the container to access these dependencies without having to reinstall them.
+
+- `-v /app/temp`: This mounts the "/app/temp" directory from the host machine to the "/app/temp" directory inside the container. It provides a location for storing temporary files or data.
+
+- `feedback-node:volumes`: This specifies the Docker image to run the container from. It uses the "feedback-node" image with the "volumes" tag.
+
+
+
 
 
 
