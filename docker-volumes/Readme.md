@@ -188,6 +188,7 @@ Example:
         - `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
 
 ```
+example of named volume on running `docker volume ls`
 ![anonymous text](./assets/images/named-volumes.png)
 
 Also , NB:
@@ -258,18 +259,20 @@ With Docker volumes, you don't have control over the specific path where Docker 
 
 To avoid this cumbersome process, Docker provides **Bind Mounts**. With bind mounts, you, the user, specify exactly where you want Docker to bind your paths. This gives you control over the locations on your host machine's filesystem that you want to make available inside the container.
 
-In essence, bind mounts offer the flexibility to directly map directories or files from your host machine into the container's filesystem. This makes it easier to work with code and other data without the need for rebuilding the container each time a change is made.
+- In essence, bind mounts provide a flexible way to directly link directories or files from your host machine to the container's filesystem. This capability simplifies working with code and other data, eliminating the need to rebuild the container every time a change is made.
 
-Just refresh your web app and the code changes are picked only for presentational files eg html. 
+- For instance, when developing a web application, bind mounts enable rapid updates to presentational files, such as HTML, without interrupting the container's operation.
 
-So for example you added `console.log`  or edited server files, in order to view those changes you have to either <br>
-    1. stop the container and restart it again manually through `docker stop`
-    2. in the case of nodejs add `nodemon` in the script and `['npm','start']` script
+- However, if you make changes to server-side files or add debugging statements like console.log, you'll need to take additional steps to ensure those changes are reflected in the running container. You can achieve this in two ways:
+
+1. **Manual Container Restart:** Stop the container manually using docker stop and then restart it. This approach is suitable for general-purpose containers.
+
+2. **Use Nodemon or Similar Tools:** For Node.js applications, consider using tools like <b>Nodemon</b> in your development workflow. By including Nodemon in your project's package.json script and specifying `['npm','start']` in Dockerfile, you can automatically restart the server whenever changes are detected , eliminating the need for manual intervention.
 
 NB :
 
 
-       For windows file system using wsl2 the refreshing might now work as expected unless you store your project and project files in directly in the Linux file system. To access the linux  file system on windows , check the "docs/windows-wsl2-file-events.pdf" folder  .
+       For windows file system using wsl2 the refreshing might now work as expected unless you store your project and project files in directly in the Linux file system. To access the linux  file system on windows , check the "assets/docs/windows-wsl2-file-events.pdf" folder in this project  .
 
 This approach is particularly useful during development when frequent changes are made to code or configuration files. Instead of rebuilding the container every time a change is made, you can simply mount the relevant directories using bind mounts, allowing for a more efficient and streamlined development workflow.
 
@@ -278,14 +281,14 @@ This approach is particularly useful during development when frequent changes ar
 We use the following command to create a bind mount:
 
 ```
-docker run -p 3000:80 -v presentWorkingDirectoryOfTheHostMachine:/app -v /app/node_modules imageName:ImageTag
+docker run -p 3000:80 -v presentWorkingDirectoryOfTheHostMachine:/directoryWithinTheContainerShouldBeMounted --name ContainerName imageName:ImageTag
 
 Example
 docker run -p 3000:80 -v $(pwd):/app -v /app/node_modules feedback:volume
 
 ```
 
-Explanation of the above code. 
+Explanation of the above command sample.. 
 
 ## Explanation of Docker the above Command
 ``` docker run -p 3000:80 -v presentWorkingDirectoryOfTheHostMachine:/app -v /app/node_modules feedback:volume```
