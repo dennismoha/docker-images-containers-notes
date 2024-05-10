@@ -427,7 +427,7 @@ No <code>docker build . </code> or in short build step is needed here since ever
 <p> There are two places we can share docker images :
 <dl>
   <dt> 1) Docker hub</dt>
-  <dd> This is the official docker image registry. You can push your image using <code> docker push username/repository:latest <code> </dd>
+  <dd> This is the official docker image registry. You can push your image using <code> docker push username/repository:latest </code> </dd>
   <dt> 2) Private Registry</dt>
   <dd> This is one for your job or personal or etc so that it can handle docker image files. You can push your docker image to it through <code>docker push image_name</code> but in this case, <i>image_name</i> needs to be <i>Host:Name</i> to talk to private registry</dd>
 </dl> 
