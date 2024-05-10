@@ -108,9 +108,12 @@ If you need to manage bind mounts or see which directories are mounted into cont
 
 1. **Adding `VOLUME [ "/app/feedback" ] `  to the dockerFile**.
 
-<div style="line-height:30px">  When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile, this will create an anonymous volume. 
+<div style="line-height:30px">  When you add the field  ``` VOLUME [ "/app/feedback" ] ``` in your Dockerfile, this will create an anonymous volume.
 
-<b>NB:</b> <i> This volume will persist through the lifetime of the container and ones the container is stopped it'll cease to exist. This happens when you start / run a container with the --rm option.If you start a container without that option, the anonymous volume  <span style="text-transform: uppercase"><b>would NOT be removed</b></span>, even if you remove the container (with docker rm ...).</i>
+<b>NB:</b>
+- When you start or run a container with the `--rm` option, the anonymous volume associated with that container is automatically removed once the container stops. However, if you start a container without the `--rm` option, the anonymous volume **will not be removed**, even if you subsequently remove the container using `docker rm`.
+
+
 
 <div>
 Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
