@@ -28,7 +28,12 @@ This scenario involves communication between a container and applications runnin
 
 When a Docker container needs to communicate with applications running directly on the host machine where Docker is installed, you can use the DNS name `host.docker.internal` within the container to refer to the host machine itself. This DNS name resolves to the internal IP address of the host machine from within the container.
 
-For example, if you have a web server running on port 8080 on your host machine and you want to access it from a Docker container, you can make requests to `http://host.docker.internal:8080` instead of `http://localhost:8080` from within the container. Docker handles the translation of `host.docker.internal` to the appropriate IP address of the host machine, allowing seamless communication between the container and the applications on the host. You only have to repace `localhost` with`host.docker.internal`
+Example: 
+
+- if you have a nodejs app running on a container and this nodejs app needs to connect to the mongodb database in your local pc, then  adjust the MongoDB connection URL to point to the MongoDB instance running on your local machine using `host.docker.internal` as shown below.
+![image](./assets/images/host-docker-internal.png)
+
+-  Docker handles the translation of `host.docker.internal` to the appropriate IP address of the host machine, allowing seamless communication between the container and the applications on the host. You only have to repace `localhost` with`host.docker.internal`
 
 This feature is particularly useful during development or testing when you need containers to access services running directly on the host machine.
 
