@@ -15,6 +15,13 @@ This document outlines different types of communication scenarios within Docker 
 
 Sending requests from inside the container to the internet works out of the box. No special configuration is needed for this.
 
+Example:
+
+1) run `docker run -p 8000:3000 imageName`
+2) once the container is up run `http://localhost:8000/movies`
+3) Axios will send and fetch the request from the swapi api internet address and return the response
+![image](./assets/images/internet-container.png)
+
 ### 2) Container to Applications on the Host Machine Communication
 
 This scenario involves communication between a container and applications running directly on the host machine where Docker is installed. Configurations may be required to enable seamless communication.
