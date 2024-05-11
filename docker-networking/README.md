@@ -99,6 +99,34 @@ Example:
 10) use POSTMAN or any other API client to run an api endpoint that sends or fetches data from the mongo. 
 11) All should be successfull.
 
+# How docker resolves IP Addresses.
+
+Docker resolves IP addresses through its networking subsystem, which manages communication between containers, between containers and the host machine, and between containers and external networks. Docker provides different networking options, each with its own way of resolving IP addresses:
+
+# Docker Networks and Drivers
+
+Docker Networks support different kinds of "Drivers" that influence the behavior of the network.
+
+The default driver is the "bridge" driver, providing the behavior where containers can find each other by name if they are in the same network.
+
+The driver can be set when creating a network using the `--driver` option:
+
+```bash
+docker network create --driver bridge my-net
+```
+If you want to use the "bridge" driver, you can omit the --driver option since "bridge" is the default.
+
+Docker also supports alternative drivers, although the "bridge" driver is most commonly used:
+
+1) host: Removes isolation between container and host system for standalone containers (they share localhost as a network).
+2) overlay: Allows multiple Docker daemons running on different machines to connect with each other. Works only in "Swarm" mode, which is a dated or almost deprecated way of connecting multiple containers.
+3) macvlan: Lets you set a custom MAC address to a container for communication purposes.
+none: Disables all networking.
+4) Third-party plugins: Enables installation of third-party plugins, adding various behaviors and functionalities.
+
+```
+In most scenarios, the "bridge" driver is the most suitable choice.
+```
 
 ## Summary
 
