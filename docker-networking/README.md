@@ -9,7 +9,11 @@ This document outlines different types of communication scenarios within Docker 
 
 
 
+# Docker network --help
 
+```
+  whenever you need clarification on Docker networking commands, remember to run docker network --help
+```
 
 ### 1) Container to Internet Communication
 
