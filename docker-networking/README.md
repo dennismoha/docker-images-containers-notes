@@ -115,6 +115,21 @@ Example:
 10) use POSTMAN or any other API client to run an api endpoint that sends or fetches data from the mongo. 
 11) All should be successfull.
 
+<span style="font-size:30px"> NB: </span>
+
+#### REACT APPLICATIONS OR APPS THAT RUN ON THE BROWSER
+
+- For apps that run on the browser we will still need to retain the `localhost` key in the url. This is because docker only works on the client server code that spins react but not on the browser so the docker container name wouldn't be understood
+
+- So assuming you had a react app in one container, nodejs app in another and mongodb in another then:
+    1)  create a network to connect both mongodb and nodejs
+            1) To create a network `docker network create mongo-nodeee`
+            2) for mongo: `docker run -d --name mongodb --network mongo-node mongo`
+            3) Container for node app: `docker run -d --name nodeApp --network mongo-node -p 8000:80 backendImage`
+            4) For React `docker run -d --name frontend -p 3000:3000 frontendImage`
+    2) NB: in step 3 above, on node we still have to use the `--network` flag in order to connect to the <b>mongo</b> container and still use the `-p` port flag in order for react to connect to it through `localhost` since react code runs on the browser
+
+
 # How docker resolves IP Addresses.
 
 Docker resolves IP addresses through its networking subsystem, which manages communication between containers, between containers and the host machine, and between containers and external networks. Docker provides different networking options, each with its own way of resolving IP addresses:
