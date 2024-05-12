@@ -306,6 +306,59 @@ The `docker run` command is used to run a Docker container with various options.
   
 - `feedback:volume`: This is the name of the Docker image to run the container from. It specifies the image named "feedback" with the tag "volume".
 
+#### NB: MULTIPLE VOLUME  PATHS
+#### case 1)
+Suppose you have two directories on your host machine:
+
+- `/host/data1` contains a file named <i><b>file.txt</b></i> with the content "Content from data1".
+- `/host/data2` contains a file named <i><b>file.txt</b></i> with the content "Content from data2".
+
+Now, let's mount these volumes into a Docker container:
+
+```bash
+docker run -v /host/data1:/container/data -v /host/data2:/container/data my_image
+```
+- In this scenario, both volumes `/host/data1` and `/host/data2` are mounted to the same location `/container/data` within the container. Since both volumes contain a file named <i><b>file.txt</b></i>, there is a conflict.
+
+The behavior in Docker is that the file from the last mounted volume `(/host/data2)` will <i></b>overwrite</b></i> any <i><b>conflicting files</b></i> from earlier mounts `(/host/data1)`. So, in this case, the content of <b>file.txt</b> within the container will be "Content from data2".
+
+#### case 2)
+
+Suppose you have two or more directories on your host machine:
+
+- `/host/data1` contains a file named <i><b>file.txt</b></i> with the content "Content from data1".
+- `/host/data2` contains a file named <i><b>file.txt</b></i> with the content "Content from data2".
+
+Now, let's mount these volumes into a Docker container:
+
+```bash
+docker run -v /host/data1:/container/data -v /host/data2:/container/data/data2 my_image
+```
+NB: ``` notice the difference in the container path in the above command ```
+
+```
+Both volumes are mounted to the container, but they map to different paths (/container/data and /container/data/data2, respectively).
+
+Since they map to different paths, there's no direct conflict between the files from /host/data1 and /host/data2 within the container.
+
+```
+
+-  if there are files with the same names in both `/host/data1` and `/host/data2`, and these files are mapped to the same path within the container (e.g., both contain a <i>file.txt</i> mapped to `/container/data/file.txt`), then the file from the last mounted volume `(/host/data2)` will overwrite any conflicting files from earlier mounts `(/host/data1)`.
+
+```
+    To avoid this switch the order of the paths in the volme command. The longer path should take precedence.
+```
+
+
+- In this scenario, both volumes `/host/data1` and `/host/data2` are mounted to the same location `/container/data` within the container. Since both volumes contain a file named <i><b>file.txt</b></i>, there is a conflict.
+
+The behavior in Docker is that the file from the last mounted volume `(/host/data2)` will <i></b>overwrite</b></i> any <i><b>conflicting files</b></i> from earlier mounts `(/host/data1)`. So, in this case, the content of <b>file.txt</b> within the container will be "Content from data2".
+
+
+
+This demonstrates how conflicting files from different mounted volumes can lead to one file overwriting another within a Docker container.
+
+
 ## Points to Note on Bind mounts.
 ### Application Code
 
