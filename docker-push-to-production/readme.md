@@ -68,6 +68,7 @@ Instead, use this approach / these commands:
 
 
 ### Managing & Updating the container/image on aws
+    - incase you made changes to your code you can push the changes as following:
 
 1) Rebuild the image with your changes
 2) push it to docker hub
@@ -76,7 +77,16 @@ Instead, use this approach / these commands:
 
     ### disadvantages of this 
 
-    - Not ideal for large applications with large containers
+    - Not ideal for large applications with large containers not unless you are a website. Otherwise use  **Managed Remote Machines** eg `AWS ECS`
 
+# A managed / Automated Approach
 
+- unlike creating **EC2** instances as above and loading them with docker , we can use a **Managed Remote Machines** e.g. `AWS ECS`.(Elastic Container Services)
+ - This helps in :
+
+    -   creation of the container
+    -  container management
+    -  container updates
+    - container monitoring
+    - container scaling
 
